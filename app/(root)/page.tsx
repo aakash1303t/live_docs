@@ -15,7 +15,9 @@ import React from 'react'
 const Home = async () => {
   const clerkUser = await currentUser();
   if(!clerkUser) redirect('/sign-in');
-  const roomDocuments = await getDocuments(clerkUser.emailAddresses[0].emailAddress); 
+  
+  const userEmail = clerkUser.emailAddresses?.[0]?.emailAddress ?? clerkUser.id;
+  const roomDocuments = await getDocuments(userEmail); 
   return (
     <main className="home-container">
       <Header className="sticky left-0 top-0">
@@ -33,7 +35,7 @@ const Home = async () => {
             <h3 className="text-28-semibold">All documents</h3>
             <AddDocumentBtn
               userId={clerkUser.id}
-              email={clerkUser.emailAddresses[0].emailAddress}  
+              email={userEmail}  
             />
           </div>
           <ul className="document-ul">
@@ -70,7 +72,7 @@ const Home = async () => {
 
           <AddDocumentBtn 
             userId={clerkUser.id}
-            email={clerkUser.emailAddresses[0].emailAddress}
+            email={userEmail}
           />
         </div>
       )}
